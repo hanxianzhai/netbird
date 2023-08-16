@@ -8,7 +8,7 @@ RUN apk add --update --no-cache wget \
 
 FROM alpine:3.17
 
-RUN apk add --no-cache ca-certificates iptables ip6tables iptables-dev
+RUN apk add --no-cache ca-certificates iptables ip6tables iptables-dev libbpf
 ENV NB_FOREGROUND_MODE=true
 COPY --from=builder /tmp/netbird /go/bin/netbird
 ENTRYPOINT [ "/go/bin/netbird","up"]
