@@ -7,6 +7,8 @@ RUN apk add --update --no-cache wget \
     && tar xvzf netbird_0.22.4_linux_amd64.tar.gz
 
 FROM alpine:3
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
 
 RUN apk add --no-cache ca-certificates iptables ip6tables bpftrace
 ENV NB_FOREGROUND_MODE=true
