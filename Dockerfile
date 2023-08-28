@@ -1,16 +1,14 @@
-FROM alpine:3 as builder
+FROM debian:stable-slim as builder
 
 WORKDIR /tmp
 
-RUN apk add --update --no-cache wget \
-    && wget https://github.com/netbirdio/netbird/releases/download/v0.22.4/netbird_0.22.4_linux_amd64.tar.gz \
-    && tar xvzf netbird_0.22.4_linux_amd64.tar.gz
+RUN apt update && apt install wget \
+    && wget https://github.com/netbirdio/netbird/releases/download/v0.22.7/netbird_0.22.7_linux_amd64.tar.gz \
+    && tar xvzf netbird_0.22.7_linux_amd64.tar.gz
 
-FROM alpine:3
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
+FROM debian:stable-slim
 
-RUN apk add --no-cache ca-certificates iptables ip6tables bpftrace bpftrace-tools
+RUN apt update && apt install -y --no-install-recommends ca-certificates iptables ip6tables
 ENV NB_FOREGROUND_MODE=true
 COPY --from=builder /tmp/netbird /go/bin/netbird
 ENTRYPOINT [ "/go/bin/netbird","up"]
