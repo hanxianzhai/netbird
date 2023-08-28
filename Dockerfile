@@ -8,8 +8,8 @@ RUN apt update && apt install -y wget \
 
 FROM debian:stable
 
-RUN apt update && apt install -y --no-install-recommends ca-certificates iptables ip6tables \
-    && apt-get clean && \
+RUN apt update && apt install --no-install-recommends ca-certificates iptables ip6tables -y \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
     
 ENV NB_FOREGROUND_MODE=true
